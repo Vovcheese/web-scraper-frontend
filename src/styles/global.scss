@@ -1,0 +1,37 @@
+$sidebarHeight: 61px;
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+#app {
+  width: 100%;
+  margin-top: $sidebarHeight;
+  position: fixed;
+
+}
+
+#nav {
+
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+  }
+}
+
+a {
+  color: $--color-primary;
+}
+
+.el-notification__content p {
+  text-align: left;
+}
