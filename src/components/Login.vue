@@ -25,6 +25,7 @@
 
 <script>
 export default {
+  metaInfo: { title: 'Authorization' },
   data() {
     return {
       form: {

@@ -81,6 +81,7 @@ export default {
 
 <style lang="scss">
 .parse-form-wrapper {
+
   .form {
     display: flex;
     align-items: center;

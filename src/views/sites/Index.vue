@@ -8,15 +8,17 @@
     el-table-column(label="#", prop="id", width="50")
 
     el-table-column(label="Name", prop="name")
-      //- template(slot-scope="props")
+      template(slot-scope="props")
+        a(:href="`${siteLinkGenerate}/default`" target="_blank" v-if="props.row.active") {{ props.row.name }}
+        span(v-else) {{ props.row.name }}
 
     el-table-column(label="Url", prop="url")
 
     el-table-column(label="Site data stats", prop="countFiles")
       template(slot-scope="props")
         .count-stats
-          el-tag(type="info" size="mini") files: {{ props.row.countFiles }}
-          el-tag(type="info" size="mini") words: {{ props.row.countWords }}
+          el-tag.tag(type="info" size="mini") files: {{ props.row.countFiles }}
+          el-tag.tag(type="info" size="mini") words: {{ props.row.countWords }}
 
     el-table-column(label="Stages", prop="pipelines")
       template(slot-scope="props")
@@ -84,6 +86,12 @@ export default {
   created() {
     this.getSiteList();
   },
+  computed: {
+    siteLinkGenerate() {
+      return 'http://localhost:4040';
+      // return window.location.origin;
+    },
+  },
   methods: {
     async getSiteList() {
       this.loading = true;
@@ -123,6 +131,13 @@ export default {
   max-width: 100%;
 
   .table {
+    .count-stats {
+
+      .tag {
+        margin-left: 5px;
+      }
+    }
+
     .template-container {
       display: flex;
 
@@ -147,7 +162,6 @@ export default {
         .circle:hover {
           cursor: pointer;
           border: 0.1em solid;
-          // background-color: #c3e6cd3d;
           border-color: #217645;
         }
       }

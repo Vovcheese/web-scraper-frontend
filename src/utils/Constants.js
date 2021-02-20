@@ -21,9 +21,9 @@ export const PIPELINES_STAGE_TRANSLATE = {
   TRANSLATING: 'Переводим',
 };
 
-// export const PIPELINES_STATUS_TRANSLATE = {
-//   PENDING: 'gray',
-//   PREGRESS: 'blue',
-//   SUCCESS: 'green',
-//   ERROR: 'red',
-// };
+export const STATUS_LIST = {
+  PENDING: 'Waiting...',
+  PREGRESS: 'Progress',
+  SUCCESS: 'Success',
+  ERROR: 'Error',
+};

@@ -5,7 +5,7 @@ import Notify from '@/utils/Notify';
 import { TOKEN_KEY } from '@/utils/Constants';
 
 const instance = axios.create({
-  baseURL: 'http://192.168.0.204:4040/api/v1',
+  baseURL: 'http://localhost:4040/api/v1',
   paramsSerializer: (params) => qs.stringify(params, {
     arrayFormat: 'repeat',
   }),
@@ -60,6 +60,8 @@ instance.interceptors.response.use((r) => r, (err) => {
   if (errorStatus === 403) {
     title = 'Ошибка';
     message = 'У вас нет доступа';
+
+    window.location.replace('/login');
   }
 
   Notify.error({

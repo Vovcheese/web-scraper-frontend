@@ -1,7 +1,4 @@
 <template lang="pug">
-//- #app
-//-   #nav(v-if="isLoggedIn")
-//-     sidebar
 <div id="app">
   <div id="nav" v-if="isLoggedIn">
     <sidebar/>
@@ -20,6 +17,12 @@ export default {
   metaInfo: {
     title: 'Загрузка...',
     titleTemplate: '%s | SEO Admin-panel',
+  },
+  created() {
+    const currentlyPath = this.$route.path;
+    const loginPath = '/login';
+
+    if (!this.isLoggedIn && (loginPath !== currentlyPath)) this.$router.push(loginPath);
   },
   computed: {
     isLoggedIn() {

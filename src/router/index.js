@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import store from '../store/index';
-// import Home from '../views/Home.vue';
 import Sites from '../views/sites/Index.vue';
 import Translations from '../views/translations/Index.vue';
 import Login from '../components/Login.vue';
@@ -27,14 +26,6 @@ const router = new VueRouter({
         requiresAuth: true,
       },
     },
-    // {
-    //   path: '/',
-    //   name: 'home',
-    //   component: Home,
-    //   meta: {
-    //     requiresAuth: true,
-    //   },
-    // },
     {
       path: '/login',
       name: 'login',
