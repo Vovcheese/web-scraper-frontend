@@ -18,7 +18,7 @@
       template(slot-scope="props")
         .count-stats
           el-tag.tag(type="info" size="mini") files: {{ props.row.countFiles }}
-          el-tag.tag(type="info" size="mini") words: {{ props.row.countWords }}
+          el-tag.tag(type="info" size="mini") words: {{ props.row.countTranslatedWords }} / {{ props.row.countWords }}
 
     el-table-column(label="Stages", prop="pipelines")
       template(slot-scope="props")
@@ -52,6 +52,7 @@
 <script>
 import requester from '@/utils/requester';
 import { PIPELINES_STAGE_TRANSLATE } from '@/utils/Constants';
+import socket from '@/plugins/socketio';
 import parseForm from './parse/Form.vue';
 
 export default {
@@ -85,6 +86,9 @@ export default {
   },
   created() {
     this.getSiteList();
+    socket.on('UPDATE_STATUS_PIPELINE', this.updateStatusPipeline);
+    socket.on('UPDATE_COUNT_FILES', this.updateCountFiles);
+    socket.on('UPDATE_COUNT_TRANSLATES', this.updateCountTranslates);
   },
   computed: {
     siteLinkGenerate() {
@@ -93,6 +97,19 @@ export default {
     },
   },
   methods: {
+    updateStatusPipeline(data) {
+      const findSite = this.tableData.find((i) => i.id === data.siteId);
+      const findPipeline = findSite.pipelines.find((i) => i.type === data.type);
+      findPipeline.status = data.status;
+    },
+    updateCountFiles(data) {
+      const findSite = this.tableData.find((i) => i.id === data.siteId);
+      findSite.countFiles = data.count;
+    },
+    updateCountTranslates(data) {
+      const findSite = this.tableData.find((i) => i.id === data.siteId);
+      findSite.countWords = data.count;
+    },
     async getSiteList() {
       this.loading = true;
       try {
