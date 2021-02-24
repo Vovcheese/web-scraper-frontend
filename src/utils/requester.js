@@ -5,7 +5,7 @@ import Notify from '@/utils/Notify';
 import { TOKEN_KEY } from '@/utils/Constants';
 
 const instance = axios.create({
-  baseURL: 'http://localhost:4040/api/v1',
+  baseURL: 'http://localhost:4050/api/v1',
   paramsSerializer: (params) => qs.stringify(params, {
     arrayFormat: 'repeat',
   }),
