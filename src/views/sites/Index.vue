@@ -26,7 +26,8 @@
           .pipeline(v-for="item in props.row.pipelines")
             el-tooltip(placement="top" :content="item.status === 'ERROR' ? item.error : pipelinesStageTranslate[item.type]" :open-delay="200")
               .circle(:style="`border-color:${pipelinesStatusTranslate[item.status].color}`")
-                i(:class="`el-icon-${pipelinesStatusTranslate[item.status].icon} icon`" :style="`color:${pipelinesStatusTranslate[item.status].color}`")
+                i(v-if="props.row.pipelines[2].status === 'SUCCESS' && item.type === 'TRANSLATING'" class="el-icon-refresh-right icon" @click="startTranslateStage(props.row)")
+                i(v-else :class="`el-icon-${pipelinesStatusTranslate[item.status].icon} icon`" :style="`color:${pipelinesStatusTranslate[item.status].color}`")
 
     el-table-column(label="Active", prop="active")
       template(slot-scope="props")
@@ -88,27 +89,38 @@ export default {
     this.getSiteList();
     socket.on('UPDATE_STATUS_PIPELINE', this.updateStatusPipeline);
     socket.on('UPDATE_COUNT_FILES', this.updateCountFiles);
+    socket.on('UPDATE_COUNT_WORDS', this.updateCountWords);
     socket.on('UPDATE_COUNT_TRANSLATES', this.updateCountTranslates);
   },
   computed: {
     siteLinkGenerate() {
-      return 'http://localhost:4040';
+      return 'http://localhost:4050';
       // return window.location.origin;
     },
   },
   methods: {
     updateStatusPipeline(data) {
       const findSite = this.tableData.find((i) => i.id === data.siteId);
+      if (!findSite) return;
       const findPipeline = findSite.pipelines.find((i) => i.type === data.type);
       findPipeline.status = data.status;
     },
     updateCountFiles(data) {
       const findSite = this.tableData.find((i) => i.id === data.siteId);
+      if (!findSite) return;
       findSite.countFiles = data.count;
+    },
+    updateCountWords(data) {
+      console.log('updateCountWords', data);
+      const findSite = this.tableData.find((i) => i.id === data.siteId);
+      console.log('findSite', findSite);
+      if (!findSite) return;
+      findSite.countWords = data.count;
     },
     updateCountTranslates(data) {
       const findSite = this.tableData.find((i) => i.id === data.siteId);
-      findSite.countWords = data.count;
+      if (!findSite) return;
+      findSite.countTranslatedWords = data.count;
     },
     async getSiteList() {
       this.loading = true;
@@ -136,6 +148,15 @@ export default {
         await requester.delete(`/site/${siteId}`);
       } finally {
         this.getSiteList();
+      }
+    },
+    async startTranslateStage(row) {
+      const siteId = row.id;
+
+      try {
+        await requester.post(`/pipeline/reload/translations/${siteId}`);
+      } catch (err) {
+        console.log(err);
       }
     },
   },
