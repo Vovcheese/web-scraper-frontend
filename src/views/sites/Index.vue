@@ -14,11 +14,16 @@
 
     el-table-column(label="Url", prop="url")
 
-    el-table-column(label="Site data stats", prop="countFiles")
+    el-table-column(label="Amount files", prop="countFiles")
+
+    el-table-column(label="Words", prop="countWords")
       template(slot-scope="props")
         .count-stats
-          el-tag.tag(type="info" size="mini") files: {{ props.row.countFiles }}
-          el-tag.tag(type="info" size="mini") words: {{ props.row.countTranslatedWords }} / {{ props.row.countWords }}
+          span All: {{ props.row.countWords }}
+          span Default: {{ props.row.countDefaultWords }}
+          span Translated:
+            el-tag.tag-counts(v-if="checkErrorTranslates(props.row)" size="mini" type="danger") {{ props.row.countTranslatedWords }}
+            span(v-else) {{ props.row.countTranslatedWords }}
 
     el-table-column(label="Stages", prop="pipelines")
       template(slot-scope="props")
@@ -159,18 +164,27 @@ export default {
         console.log(err);
       }
     },
+    checkErrorTranslates(row) {
+      if (!row) return false;
+
+      return row.pipelines[3].status === 'SUCCESS' && row.countWords !== (row.countTranslatedWords + row.countDefaultWords);
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.tag-counts {
+  margin-left: 5px;
+}
 .sites-list-wrapper {
   max-height: 100%;
   max-width: 100%;
 
   .table {
     .count-stats {
-
+      display: flex;
+      flex-direction: column;
       .tag {
         margin-left: 5px;
       }

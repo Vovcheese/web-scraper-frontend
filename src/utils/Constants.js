@@ -23,7 +23,7 @@ export const PIPELINES_STAGE_TRANSLATE = {
 
 export const STATUS_LIST = {
   PENDING: 'Waiting...',
-  PREGRESS: 'Progress',
+  PROGRESS: 'Progress',
   SUCCESS: 'Success',
   ERROR: 'Error',
 };

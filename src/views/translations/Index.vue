@@ -27,13 +27,13 @@
     ) Clear
 
   // table
-  el-table.table(:data="tableData.rows", empty-text="No data")
+  el-table.table(:data="tableData.rows", empty-text="No data" @filter-change="filterStatusHandler")
     el-table-column(label="#", prop="id")
     el-table-column(label="File", prop="file")
       template(slot-scope="props")
         span {{ props.row.file.fileName }}
 
-    el-table-column(label="Status", prop="status")
+    el-table-column(label="Status", prop="status" :filters="statusFilter")
       template(slot-scope="props")
         span {{ statusList[props.row.status] }}
 
@@ -81,6 +81,7 @@ const defaultFilterForm = {
   query: '',
   page: 1,
   limit: 300,
+  statuses: [],
 };
 
 export default {
@@ -101,6 +102,15 @@ export default {
   created() {
     this.initQueryParams();
     this.getSiteTranslation();
+  },
+  computed: {
+    statusFilter() {
+      return Object.entries(this.statusList).reduce((acc, [value, text]) => {
+        acc.push({ text, value });
+
+        return acc;
+      }, []);
+    },
   },
   methods: {
     initQueryParams() {
@@ -152,6 +162,11 @@ export default {
       });
       this.filterForm.page = e;
       this.getSiteTranslation();
+    },
+    filterStatusHandler(value) {
+      console.log('value', value);
+      this.filterForm.statuses = value['el-table_1_column_3'];
+      this.filtrationHandle();
     },
   },
 };
