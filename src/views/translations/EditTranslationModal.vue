@@ -39,7 +39,6 @@ export default {
     },
     handleModalOpen() {
       this.newTranslation = this.row.text;
-      console.log(this.row);
     },
     handleClose() {
       this.$emit('close');

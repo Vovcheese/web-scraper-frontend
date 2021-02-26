@@ -2,24 +2,20 @@ $sidebarHeight: 61px;
 
 html,
 body {
-  // height: 100%;
-  // width: 100%;
+  height: calc(100vh - 61px);
+  margin: 0;
+  width: 100%;
   font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
 }
 
 #app {
-  width: 100%;
-
-  // &.sidebar {
-  //   padding-top: $sidebarHeight;
-  // }
+  height: 100%;
+  margin-top: 61px;
 }
 
 #nav {
-  padding-bottom: 61px;
-
   a {
     font-weight: bold;
     color: #2c3e50;

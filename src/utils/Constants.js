@@ -5,7 +5,7 @@ export const LANGUAGE_LIST = {
   en: 'English',
   fr: 'French',
   it: 'Italian',
-  js: 'Japanese',
+  ja: 'Japanese',
   es: 'Spanish',
   nl: 'Dutch',
   pl: 'Polish',

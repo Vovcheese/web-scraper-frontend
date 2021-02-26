@@ -1,7 +1,7 @@
 <template lang="pug">
 .sites-list-wrapper(v-loading="loading")
   // parse form
-  parse-form(@getSiteList="getSiteList")
+  parse-form.filtration(@getSiteList="getSiteList")
 
   // table
   el-table.table(:data="tableData" empty-text="No data")
@@ -23,7 +23,7 @@
           span Default: {{ props.row.countDefaultWords }}
           span Translated:
             el-tag.tag-counts(v-if="checkErrorTranslates(props.row)" size="mini" type="danger") {{ props.row.countTranslatedWords }}
-            span(v-else) {{ props.row.countTranslatedWords }}
+            span(v-else) {{ ' ' + props.row.countTranslatedWords }}
 
     el-table-column(label="Stages", prop="pipelines")
       template(slot-scope="props")
@@ -48,10 +48,17 @@
           @confirm="deleteSiteHandle(props.row)")
           el-button(type="danger" slot="reference" size="mini" :disabled="props.row.active") Delete
 
+    // go to translations
     el-table-column(width="130")
       template(slot-scope="props")
         router-link(:to='`/translations/${props.row.id}`')
           el-button(type="info" size="mini") Translations
+
+    // go to files list
+    el-table-column(width="130")
+      template(slot-scope="props")
+        router-link(:to='`/files/${props.row.id}`')
+          el-button(type="info" size="mini") Files
 
 </template>
 
@@ -116,9 +123,7 @@ export default {
       findSite.countFiles = data.count;
     },
     updateCountWords(data) {
-      console.log('updateCountWords', data);
       const findSite = this.tableData.find((i) => i.id === data.siteId);
-      console.log('findSite', findSite);
       if (!findSite) return;
       findSite.countWords = data.count;
     },
@@ -180,6 +185,7 @@ export default {
 .sites-list-wrapper {
   max-height: 100%;
   max-width: 100%;
+  padding-top: 10px;
 
   .table {
     .count-stats {

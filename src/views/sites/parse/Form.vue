@@ -24,7 +24,7 @@
         el-option(v-for="(key, value) in languageList", :label="key", :value="value")
 
     el-form-item
-      el-button(type="primary", @click="goParse('siteForm')") Go parse
+      el-button(type="primary", @click="goParse('siteForm')") Scrape
 
 </template>
 
@@ -81,6 +81,7 @@ export default {
 
 <style lang="scss">
 .parse-form-wrapper {
+  margin-left: 10px;
 
   .form {
     display: flex;

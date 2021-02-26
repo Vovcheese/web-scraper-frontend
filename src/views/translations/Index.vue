@@ -164,7 +164,6 @@ export default {
       this.getSiteTranslation();
     },
     filterStatusHandler(value) {
-      console.log('value', value);
       this.filterForm.statuses = value['el-table_1_column_3'];
       this.filtrationHandle();
     },
@@ -175,6 +174,7 @@ export default {
 <style lang="scss" scoped>
 .translations-wrapper {
   .filtration {
+    padding: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
