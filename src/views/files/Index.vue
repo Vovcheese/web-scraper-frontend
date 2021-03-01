@@ -3,11 +3,22 @@
   #container
     // file list
     .column.left
-      .file-list-container(v-if="fileList")
-        .file(v-for="item in fileList")
-          .info(@click="getCodeHandle(item.id)")
-            i.el-icon-tickets
-            span.text {{ item.fileName }}
+      .global-action-bar
+        .title Actions
+        .buttons
+          el-tooltip(placement="top" content="Replace content site" effect="light" :open-delay="100")
+            i.action-button.el-icon-refresh
+          el-tooltip(placement="top" content="Download site" effect="light" :open-delay="100")
+            i.action-button.el-icon-download
+          el-tooltip(placement="top" content="Upload files" effect="light" :open-delay="100")
+            i.action-button.el-icon-upload2
+          el-tooltip(placement="top" content="Create folder" effect="light" :open-delay="100")
+            i.action-button.el-icon-folder-add
+          el-tooltip(placement="top" content="Create file" effect="light" :open-delay="100")
+            i.action-button.el-icon-document-add
+
+      .file-structure-wrapper
+        file-structure(:data="fileList" :depth="0" :active="fileId" @getCode="getCodeHandle")
 
     // code editor
     .column.right
@@ -16,14 +27,15 @@
 
 <script>
 import requester from '@/utils/requester';
+import fileStructure from '@/components/FileStructure.vue';
 import codeEditor from './CodeEditor.vue';
 
 export default {
-  components: { codeEditor },
+  components: { codeEditor, fileStructure },
   data: () => ({
     codeString: '',
     fileId: null,
-    fileList: [],
+    fileList: {},
   }),
   created() {
     this.getFilesListHandle();
@@ -34,13 +46,14 @@ export default {
       try {
         this.fileList = await requester
           .get(`/file/list/${this.$route.params.siteId}`)
-          .then((res) => res.data.rows);
+          .then((res) => res.data);
       } finally {
         this.loading = false;
-        const selectedFileId = this.fileList.filter(
+        const selectedFileId = this.fileList.files.find(
           (i) => i.fileName === 'index.html',
-        )[0].id;
-        this.getCodeHandle(selectedFileId);
+        );
+        this.fileId = selectedFileId.id;
+        this.getCodeHandle(selectedFileId.id);
       }
     },
     async getCodeHandle(fileId) {
@@ -54,6 +67,43 @@ export default {
 </script>
 
 <style lang="scss">
+.file-structure-wrapper {
+  margin-top: 25px;
+  height: 100%;
+  overflow: scroll;
+  box-sizing: border-box;
+}
+.global-action-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: absolute;
+  height: 25px;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: rgb(41, 41, 41);
+  .title {
+    padding: 0 10px;
+    font-size: 8px;
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: bold;
+  }
+  .buttons {
+    display: flex;
+    align-items: center;
+    .action-button {
+      color: #fff;
+      font-size: 12px;
+      margin-right: 7px;
+      cursor: pointer;
+      &:hover {
+        color: rgb(117, 117, 117);
+      }
+    }
+  }
+}
 .files-section-wrapper {
   width: 100%;
   height: 100%;
@@ -67,36 +117,12 @@ export default {
     height: 100%;
   }
   .column.left {
-    width: 10%;
-
-    .file-list-container {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      background-color: #2d2d2d;
-
-      .file {
-        padding: 10px;
-        font-size: 12px;
-        color: white;
-
-        .info {
-          display: flex;
-          align-items: center;
-
-          .text {
-            padding-left: 5px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
-        }
-      }
-      .file:hover {
-        background-color: rgba(94, 94, 95, 0.9);
-        cursor: pointer;
-      }
-    }
+    position: relative;
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: #2d2d2d;
   }
   .column.right {
     width: 90%;
