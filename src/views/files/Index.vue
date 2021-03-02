@@ -11,14 +11,15 @@
           el-tooltip(placement="top" content="Download site" effect="light" :open-delay="100")
             i.action-button.el-icon-download
           el-tooltip(placement="top" content="Upload files" effect="light" :open-delay="100")
-            i.action-button.el-icon-upload2
+            i.action-button.el-icon-upload2(@click="showUploadForm")
+          input(type="file" multiple :ref="`uploadFolderGlobal`" style="display: none;")
           el-tooltip(placement="top" content="Create folder" effect="light" :open-delay="100")
             i.action-button.el-icon-folder-add
           el-tooltip(placement="top" content="Create file" effect="light" :open-delay="100")
             i.action-button.el-icon-document-add
 
       .file-structure-wrapper
-        file-structure(:data="fileList" :depth="0" :active="fileId" @getCode="getCodeHandle")
+        file-structure(:data="fileList" :depth="0" :active="fileId" @getCode="getCodeHandle" @updateStructure="getFilesListHandle")
 
     // code editor
     .column.right
@@ -61,6 +62,28 @@ export default {
       this.codeString = await requester
         .get(`/file/${fileId}`)
         .then((res) => res.data);
+    },
+    async showUploadForm() {
+      const input = this.$refs.uploadFolderGlobal;
+      const cInput = input;
+
+      if (!cInput) return;
+
+      cInput.click();
+
+      cInput.onchange = async () => {
+        const { files } = cInput;
+        const formData = new FormData();
+        formData.append('siteId', this.$route.params.siteId);
+        files.forEach((file) => {
+          formData.append('file', file);
+        });
+        try {
+          await requester.post('/file/upload/0', formData);
+        } finally {
+          this.getFilesListHandle();
+        }
+      };
     },
   },
 };

@@ -15,14 +15,6 @@
 
     el-form-item.item(prop="languages")
       el-select(
-        v-model="siteForm.defaultLang",
-        :collapse-tags="true"
-        placeholder="Select default language"
-      )
-        el-option(v-for="(key, value) in languageList", :label="key", :value="value")
-
-    el-form-item.item(prop="languages")
-      el-select(
         v-model="siteForm.languages",
         multiple,
         clearable,

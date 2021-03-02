@@ -25,6 +25,17 @@
             el-tag.tag-counts(v-if="checkErrorTranslates(props.row)" size="mini" type="danger") {{ props.row.countTranslatedWords }}
             span(v-else) {{ ' ' + props.row.countTranslatedWords }}
 
+    el-table-column(label="Default language", prop="countFiles")
+      template(slot-scope="props")
+        el-select(
+          v-model="props.row.lang",
+          :collapse-tags="true"
+          placeholder="Select default language"
+          size="mini"
+          @change="updateSite(props.row)"
+        )
+          el-option(v-for="(key, value) in languageList", :label="key", :value="value")
+
     el-table-column(label="Stages", prop="pipelines")
       template(slot-scope="props")
         .template-container
@@ -64,7 +75,7 @@
 
 <script>
 import requester from '@/utils/requester';
-import { PIPELINES_STAGE_TRANSLATE } from '@/utils/Constants';
+import { PIPELINES_STAGE_TRANSLATE, LANGUAGE_LIST } from '@/utils/Constants';
 import socket from '@/plugins/socketio';
 import parseForm from './parse/Form.vue';
 
@@ -73,6 +84,7 @@ export default {
   metaInfo: { title: 'Sites' },
   data() {
     return {
+      languageList: LANGUAGE_LIST,
       pipelinesStageTranslate: PIPELINES_STAGE_TRANSLATE,
       loading: false,
       tableData: [],
@@ -147,6 +159,13 @@ export default {
 
       try {
         await requester.post(`/site/switch/active/${siteId}`);
+      } finally {
+        this.getSiteList();
+      }
+    },
+    async updateSite(row) {
+      try {
+        await requester.put('/site', row);
       } finally {
         this.getSiteList();
       }
