@@ -9,7 +9,7 @@
 
     el-table-column(label="Name", prop="name")
       template(slot-scope="props")
-        a(:href="`${siteLinkGenerate}/default`" target="_blank" v-if="props.row.active") {{ props.row.name }}
+        a(:href="`${siteLinkGenerate}`" target="_blank" v-if="props.row.active") {{ props.row.name }}
         span(v-else) {{ props.row.name }}
 
     el-table-column(label="Url", prop="url")

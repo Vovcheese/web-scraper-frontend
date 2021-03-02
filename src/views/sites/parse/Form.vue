@@ -15,6 +15,14 @@
 
     el-form-item.item(prop="languages")
       el-select(
+        v-model="siteForm.defaultLang",
+        :collapse-tags="true"
+        placeholder="Select default language"
+      )
+        el-option(v-for="(key, value) in languageList", :label="key", :value="value")
+
+    el-form-item.item(prop="languages")
+      el-select(
         v-model="siteForm.languages",
         multiple,
         clearable,
@@ -40,6 +48,7 @@ export default {
         name: '',
         link: '',
         languages: [...Object.keys(LANGUAGE_LIST)],
+        defaultLang: 'ru',
       },
       rules: {
         name: [
@@ -68,6 +77,7 @@ export default {
               name: '',
               link: '',
               languages: [],
+              defaultLang: 'ru',
             };
           }
         } else {
