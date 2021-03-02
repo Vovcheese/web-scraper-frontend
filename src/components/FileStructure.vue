@@ -6,8 +6,8 @@
                     i.el-icon-folder
                     .text {{ folder.folder.fileName }}
                 .actions
-                    el-tooltip(placement="bottom" content="Create folder" effect="light" :open-delay="100")
-                        i.action-button.el-icon-folder-add
+                    //- el-tooltip(placement="bottom" content="Create folder" effect="light" :open-delay="100")
+                    //-     i.action-button.el-icon-folder-add
                     el-popconfirm(title="A you sure?" @confirm="removeFolder(folder.folder)")
                       template(slot="reference")
                         el-tooltip(placement="bottom" content="Delete folder" effect="light" :open-delay="100")

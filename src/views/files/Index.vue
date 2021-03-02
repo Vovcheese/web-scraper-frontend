@@ -6,17 +6,17 @@
       .global-action-bar
         .title Actions
         .buttons
-          el-tooltip(placement="top" content="Replace content site" effect="light" :open-delay="100")
-            i.action-button.el-icon-refresh
-          el-tooltip(placement="top" content="Download site" effect="light" :open-delay="100")
-            i.action-button.el-icon-download
+          //- el-tooltip(placement="top" content="Replace content site" effect="light" :open-delay="100")
+          //-   i.action-button.el-icon-refresh
+          //- el-tooltip(placement="top" content="Download site" effect="light" :open-delay="100")
+          //-   i.action-button.el-icon-download
           el-tooltip(placement="top" content="Upload files" effect="light" :open-delay="100")
             i.action-button.el-icon-upload2(@click="showUploadForm")
           input(type="file" multiple :ref="`uploadFolderGlobal`" style="display: none;")
-          el-tooltip(placement="top" content="Create folder" effect="light" :open-delay="100")
-            i.action-button.el-icon-folder-add
-          el-tooltip(placement="top" content="Create file" effect="light" :open-delay="100")
-            i.action-button.el-icon-document-add
+          //- el-tooltip(placement="top" content="Create folder" effect="light" :open-delay="100")
+          //-   i.action-button.el-icon-folder-add
+          //- el-tooltip(placement="top" content="Create file" effect="light" :open-delay="100")
+          //-   i.action-button.el-icon-document-add
 
       .file-structure-wrapper
         file-structure(:data="fileList" :depth="0" :active="fileId" @getCode="getCodeHandle" @updateStructure="getFilesListHandle")
