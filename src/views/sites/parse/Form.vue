@@ -8,10 +8,10 @@
     ref="siteForm"
   )
     el-form-item.item(prop="name")
-      el-input(v-model="siteForm.name", placeholder="Enter a site name")
+      el-input(v-model.trim="siteForm.name", placeholder="Enter a site name")
 
     el-form-item.item(prop="link")
-      el-input(v-model="siteForm.link", placeholder="Enter a site link")
+      el-input(v-model.trim="siteForm.link", placeholder="Enter a site link")
 
     el-form-item.item(prop="languages")
       el-select(
