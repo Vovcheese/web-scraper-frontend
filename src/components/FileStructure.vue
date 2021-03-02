@@ -8,7 +8,7 @@
                 .actions
                     el-tooltip(placement="bottom" content="Create folder" effect="light" :open-delay="100")
                         i.action-button.el-icon-folder-add
-                    el-popconfirm(title="A you sure?" @confirm.stop="removeFolder(folder.folder)")
+                    el-popconfirm(title="A you sure?" @confirm="removeFolder(folder.folder)")
                       template(slot="reference")
                         el-tooltip(placement="bottom" content="Delete folder" effect="light" :open-delay="100")
                             i.action-button.el-icon-folder-remove
@@ -29,7 +29,7 @@
                 i.el-icon-tickets
                 .text {{ file.fileName }}
             .actions
-              el-popconfirm(title="A you sure?" @confirm.stop="removeFile(file)")
+              el-popconfirm(title="A you sure?" @confirm="removeFile(file)")
                 template(slot="reference")
                   el-tooltip(placement="right" content="Delete file" effect="light" :open-delay="100")
                       i.action-button.action-button__file.el-icon-document-delete
