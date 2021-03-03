@@ -3,7 +3,7 @@
   //- <prism-editor class="my-editor" v-model="code" :insertSpaces="false" :tabSize="2" :highlight="highlighter" line-numbers></prism-editor>
   .wrapper-action-bar
     el-button.save-changes-button(type="warning", @click="saveCodeHandle" size="mini") Save changes
-    el-checkbox(v-model="replaceHeaders" label="Replace headers" border size="mini")
+    el-checkbox.light(v-model="replaceHeaders" label="Replace headers" border size="mini")
   prism-editor.my-editor(
     v-model="code",
     :insertSpaces="false",
@@ -60,6 +60,20 @@ export default {
 </script>
 
 <style lang="scss">
+.el-checkbox {
+  &.light {
+    border: 1px solid #DCDFE6 !important;
+    color:#DCDFE6 !important;
+    &.is-checked {
+      border: 1px solid #DCDFE6 !important;
+      color:#DCDFE6 !important;
+    }
+    .el-checkbox__label {
+      color:#DCDFE6 !important;
+    }
+  }
+}
+
 .code-editor-wrapper {
   height: 100%;
 }
@@ -68,7 +82,7 @@ export default {
   display: flex;
   position: fixed;
   top: 15px;
-  right: 35%;
+  right: 40%;
   z-index: 999;
   .save-changes-button {
     margin-right: 10px;
