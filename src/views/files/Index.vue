@@ -141,14 +141,16 @@ export default {
   }
   .column.left {
     position: relative;
-    width: 25%;
+    box-sizing: border-box;
+    width: 20%;
     display: flex;
     flex-direction: column;
     height: 100%;
     background-color: #2d2d2d;
   }
   .column.right {
-    width: 90%;
+    box-sizing: border-box;
+    width: 80%;
     // flex: 0 0 90%;
     border-left: 1px solid #eee;
     // min-height: 100%;
