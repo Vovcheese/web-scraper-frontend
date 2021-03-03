@@ -23,7 +23,7 @@
               @getCode="$emit('getCode', $event)"
               @updateStructure="$emit('updateStructure', $event)"
             )
-    .file(v-for="file in data.files" :class="{ active: active === file.id}" @click.git ="$emit('getCode',file.id)")
+    .file(v-for="file in data.files" :class="{ active: active === file.id}" @click.git ="$emit('getCode',file)")
         .info
             .text-wrapper
                 i.el-icon-tickets

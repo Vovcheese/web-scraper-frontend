@@ -23,7 +23,7 @@
 
     // code editor
     .column.right
-      code-editor(:codeString="codeString" :fileId="fileId")
+      code-editor(:codeString="codeString" :fileId="fileId", :imageUrl="imageUrl")
 </template>
 
 <script>
@@ -37,6 +37,7 @@ export default {
     codeString: '',
     fileId: null,
     fileList: {},
+    imageUrl: null,
   }),
   created() {
     this.getFilesListHandle();
@@ -53,15 +54,21 @@ export default {
         const selectedFileId = this.fileList.files.find(
           (i) => i.fileName === 'index.html',
         );
-        this.fileId = selectedFileId.id;
-        this.getCodeHandle(selectedFileId.id);
+        this.getCodeHandle(selectedFileId);
       }
     },
-    async getCodeHandle(fileId) {
-      this.fileId = fileId;
-      this.codeString = await requester
-        .get(`/file/${fileId}`)
-        .then((res) => res.data);
+    async getCodeHandle(file) {
+      console.log(file);
+      const imageExts = ['.jpg', '.jpeg', '.png', '.gif'];
+      this.fileId = file.id;
+      if (imageExts.includes(file.ext)) {
+        this.imageUrl = `http://localhost:4050/api/v1/file/${this.fileId}`;
+      } else {
+        this.imageUrl = null;
+        this.codeString = await requester
+          .get(`/file/${this.fileId}`)
+          .then((res) => res.data);
+      }
     },
     async showUploadForm() {
       const input = this.$refs.uploadFolderGlobal;

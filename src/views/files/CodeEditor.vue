@@ -4,7 +4,9 @@
   .wrapper-action-bar
     el-button.save-changes-button(type="warning", @click="saveCodeHandle" size="mini") Save changes
     el-checkbox.light(v-model="replaceHeaders" label="Replace headers" border size="mini")
+  img(:src="imageUrl" v-if="imageUrl")
   prism-editor.my-editor(
+    v-if="!imageUrl",
     v-model="code",
     :insertSpaces="false",
     :tabSize="2",
@@ -28,11 +30,15 @@ import 'prismjs/themes/prism-tomorrow.css'; // import syntax highlighting styles
 import requester from '@/utils/requester';
 
 export default {
-  props: ['codeString', 'fileId'],
+  props: ['codeString', 'fileId', 'imageUrl'],
   components: {
     PrismEditor,
   },
-  data: () => ({ code: '', loading: false, replaceHeaders: false }),
+  data: () => ({
+    code: '',
+    loading: false,
+    replaceHeaders: false,
+  }),
   watch: {
     codeString(newVal) {
       this.code = newVal;
@@ -75,7 +81,11 @@ export default {
 }
 
 .code-editor-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 100%;
+  overflow: scroll;
 }
 .wrapper-action-bar {
   align-items: center;
