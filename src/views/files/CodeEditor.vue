@@ -1,7 +1,9 @@
 <template lang="pug">
 .code-editor-wrapper(v-loading="loading")
   //- <prism-editor class="my-editor" v-model="code" :insertSpaces="false" :tabSize="2" :highlight="highlighter" line-numbers></prism-editor>
-  el-button.save-changes-button(type="warning", @click="saveCodeHandle" size="mini") Save changes
+  .wrapper-action-bar
+    el-button.save-changes-button(type="warning", @click="saveCodeHandle" size="mini") Save changes
+    el-checkbox(v-model="replaceHeaders" label="Replace headers" border size="mini")
   prism-editor.my-editor(
     v-model="code",
     :insertSpaces="false",
@@ -30,7 +32,7 @@ export default {
   components: {
     PrismEditor,
   },
-  data: () => ({ code: '', loading: false }),
+  data: () => ({ code: '', loading: false, replaceHeaders: false }),
   watch: {
     codeString(newVal) {
       this.code = newVal;
@@ -40,13 +42,14 @@ export default {
     async saveCodeHandle() {
       this.loading = true;
       try {
-        await requester.post(`/file/${this.fileId}`, { code: this.code });
+        await requester.post(`/file/${this.fileId}`, { code: this.code, replaceHeaders: this.replaceHeaders });
         Notify.success({
           title: 'Success',
           message: 'File is saved',
         });
       } finally {
         this.loading = false;
+        this.replaceHeaders = false;
       }
     },
     highlighter(code) {
@@ -60,14 +63,18 @@ export default {
 .code-editor-wrapper {
   height: 100%;
 }
-.save-changes-button {
+.wrapper-action-bar {
+  align-items: center;
+  display: flex;
   position: fixed;
   top: 15px;
-  right: 50%;
+  right: 35%;
   z-index: 999;
-  // background: #75D701;
-  // color: white;
+  .save-changes-button {
+    margin-right: 10px;
+  }
 }
+
 /* required class */
 .my-editor {
   /* we dont use `language-` classes anymore so thats why we need to add background and text color manually */
