@@ -1,0 +1,16 @@
+version: '3'
+services:
+  scraper-frontend:
+    build: .
+    ports:
+      - '8080:8080'
+    networks:
+      - scraper-network
+    environment:
+      - BACKEND_HOST=scraper-backend
+      - BACKEND_PORT=4050
+    tty: true
+
+networks:
+  scraper-network:
+    external: true

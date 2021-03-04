@@ -26,7 +26,8 @@
     .file(v-for="file in data.files" :class="{ active: active === file.id}" @click.git ="$emit('getCode',file)")
         .info
             .text-wrapper
-                i.el-icon-tickets
+                i.el-icon-tickets(v-if="!checkImageExt(file)")
+                i.el-icon-picture-outline(v-else)
                 .text {{ file.fileName }}
             .actions
               el-popconfirm(title="A you sure?" @confirm="removeFile(file)")
@@ -53,6 +54,7 @@ export default {
       const multiple = Number(this.depth) || 0;
       return 10 * multiple;
     },
+
   },
   methods: {
     async fetchRemove(item) {
@@ -94,6 +96,9 @@ export default {
         }
       };
     },
+    checkImageExt(file) {
+      return ['.png', '.jpg', '.jpeg', '.gif'].includes(file.ext);
+    },
   },
 };
 </script>
@@ -123,9 +128,12 @@ export default {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            position: relative;
             .text-wrapper {
                 display: flex;
                 align-items: center;
+                width: 85%;
+                text-overflow: ellipsis;
                 .text {
                     padding-left: 6px;
                     white-space: nowrap;
@@ -135,6 +143,8 @@ export default {
             }
             .actions {
                 display: none;
+                position: absolute;
+                right: 0;
             }
             &.folder {
                 padding: 0 10px 10px 0;
