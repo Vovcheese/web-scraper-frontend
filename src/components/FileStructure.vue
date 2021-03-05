@@ -62,6 +62,11 @@ export default {
         await requester
           .delete(`/file/${item.id}`)
           .then((res) => res.data);
+        this.$notify({
+          title: 'Success',
+          message: 'Files deleted successfully',
+          type: 'success',
+        });
       } finally {
         this.$emit('updateStructure');
       }
@@ -91,6 +96,11 @@ export default {
         });
         try {
           await requester.post(`/file/upload/${folder.id}`, formData);
+          this.$notify({
+            title: 'Success',
+            message: 'Files uploaded successfully',
+            type: 'success',
+          });
         } finally {
           this.$emit('updateStructure');
         }

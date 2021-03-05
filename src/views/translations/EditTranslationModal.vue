@@ -32,6 +32,11 @@ export default {
 
       try {
         await requester.post(`/translations/${translationId}`, { text });
+        this.$notify({
+          title: 'Success',
+          message: 'Text success translated',
+          type: 'success',
+        });
       } finally {
         this.$emit('getTranslations');
         this.handleClose();

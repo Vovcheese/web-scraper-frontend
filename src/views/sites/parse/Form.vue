@@ -62,6 +62,11 @@ export default {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
           try {
+            this.$notify({
+              title: 'Success',
+              message: `Website ${this.siteForm.link} download has started`,
+              type: 'success',
+            });
             await requester.post('/scrape', this.siteForm);
           } finally {
             this.$emit('getSiteList');

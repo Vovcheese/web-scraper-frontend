@@ -58,7 +58,6 @@ export default {
       }
     },
     async getCodeHandle(file) {
-      console.log(file);
       const imageExts = ['.jpg', '.jpeg', '.png', '.gif'];
       this.fileId = file.id;
       if (imageExts.includes(file.ext)) {
@@ -87,6 +86,11 @@ export default {
         });
         try {
           await requester.post('/file/upload/0', formData);
+          this.$notify({
+            title: 'Success',
+            message: 'Files uploaded successfully',
+            type: 'success',
+          });
         } finally {
           this.getFilesListHandle();
         }

@@ -156,9 +156,14 @@ export default {
     },
     async updateSiteActive(row) {
       const siteId = row.id;
-
+      const active = row.active ? 'active' : 'disabled';
       try {
         await requester.post(`/site/switch/active/${siteId}`);
+        this.$notify({
+          title: 'Success',
+          message: `This site ${row.name} is ${active}`,
+          type: 'success',
+        });
       } finally {
         this.getSiteList();
       }
@@ -175,6 +180,11 @@ export default {
 
       try {
         await requester.delete(`/site/${siteId}`);
+        this.$notify({
+          title: 'Success',
+          message: `This site ${row.name} is deleted`,
+          type: 'success',
+        });
       } finally {
         this.getSiteList();
       }
